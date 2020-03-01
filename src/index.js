@@ -48,7 +48,8 @@ io.on('connection', (socket) => {
 		//get details of the current user
 		const user = getUser(socket.id)
 		//To emit the message to all the users connected to a particular room
-		io.to(user.room).emit('message', generateMessage(user.username, msg))
+		socket.broadcast.to(user.room).emit('message', generateMessage(user.username, msg))
+		socket.emit('message', generateMessage(user.username, msg, 'right'))
 		callback();
 	})
 
@@ -69,7 +70,8 @@ io.on('connection', (socket) => {
 		//get details of the current user
 		const user = getUser(socket.id)
 		//console.log(`Location: ${location.long}, ${location.lat}`);
-		io.to(user.room).emit('locationMessage', generateLocationMessage(user.username, `https://google.com/maps?q=${location.lat},${location.long}`))
+		socket.broadcast.to(user.room).emit('locationMessage', generateLocationMessage(user.username, `https://google.com/maps?q=${location.lat},${location.long}`))
+		socket.emit('locationMessage', generateLocationMessage(user.username, `https://google.com/maps?q=${location.lat},${location.long}`, 'right'))
 		callback();
 	})
 

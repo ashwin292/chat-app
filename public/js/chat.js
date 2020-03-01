@@ -11,8 +11,10 @@ const $location = document.querySelector('#location')
 const $messages = document.querySelector('#messages')
 
 //Templates
-const messageTemplate = document.querySelector('#message-template').innerHTML
+const messageTemplateLeft = document.querySelector('#message-template-left').innerHTML
+const messageTemplateright = document.querySelector('#message-template-right').innerHTML
 const locationMsgTemplate = document.querySelector('#locmsg-template').innerHTML
+const locationMsgTemplateRight = document.querySelector('#locmsg-template-right').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 //Options
@@ -43,21 +45,41 @@ const autoScroll = () => {
 }
 
 socket.on('message', (msg) => {
-	const html = Mustache.render(messageTemplate, {
-		username:msg.username,
-		message: msg.text,
-		createdAt: moment(msg.createdAt).format('h:mm A')
-	})
+	let html = undefined;
+	if(msg.pos){
+		html = Mustache.render(messageTemplateright, {
+			username:msg.username,
+			message: msg.text,
+			createdAt: moment(msg.createdAt).format('h:mm A')
+		})
+	}
+	else{	
+		html = Mustache.render(messageTemplateLeft, {
+			username:msg.username,
+			message: msg.text,
+			createdAt: moment(msg.createdAt).format('h:mm A')
+		})
+	}	
 	$messages.insertAdjacentHTML('beforeend', html)
 	autoScroll()
 })
 
 socket.on('locationMessage', (locationURL) => {
-	const html = Mustache.render(locationMsgTemplate, {
+	let html;
+	if(locationURL.pos){
+		html = Mustache.render(locationMsgTemplateRight, {
+			user:locationURL.username,
+			url:locationURL.text,
+			createdAt: moment(locationURL.createdAt).format('h:mm A')
+		})
+	}	
+	else{
+		html = Mustache.render(locationMsgTemplate, {
 		user:locationURL.username,
 		url:locationURL.text,
 		createdAt: moment(locationURL.createdAt).format('h:mm A')
-	})
+		})
+	}	
 	$messages.insertAdjacentHTML('beforeend', html)
 	autoScroll()
 })

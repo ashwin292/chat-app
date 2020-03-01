@@ -23,8 +23,18 @@
             </div>
         </div>        
 
-        <script id="message-template" type="text/html">
+        <script id="message-template-left" type="text/html">
             <div class="message">
+                <p>
+                    <span class="message__name">{{username}}</span>
+                    <span class="message__meta">{{createdAt}}</span>
+                </p>
+                <p>{{message}}</p>
+            </div>
+        </script>
+
+        <script id="message-template-right" type="text/html">
+            <div class="message-right">
                 <p>
                     <span class="message__name">{{username}}</span>
                     <span class="message__meta">{{createdAt}}</span>
@@ -35,6 +45,16 @@
 
         <script id="locmsg-template" type="text/html">
             <div class="message">
+                <p>
+                    <span class="message__name">{{user}}</span>
+                    <span class="message__meta">{{createdAt}}</span>
+                </p>
+                <p><a href="{{url}}" target="_blank">My Current Location</a></p>
+            </div>
+        </script>
+
+        <script id="locmsg-template-right" type="text/html">
+            <div class="message-right">
                 <p>
                     <span class="message__name">{{user}}</span>
                     <span class="message__meta">{{createdAt}}</span>
